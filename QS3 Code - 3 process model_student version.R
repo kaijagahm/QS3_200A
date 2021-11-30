@@ -273,60 +273,6 @@ for(i in 1:length(m_values)){
 
 dev.off()
 
-# Transform so we can plot
-df <- as.data.frame(mat)
-names(df) <- freq_dependence_values
-df$m_value <- m_values
+# We can see from looking at these plots that both migration rate and negative frequency dependence promote coexistence (i.e. increase stability of the frequency of species 1). It looks to us like migration rate has a larger effect on stability than negative frequency dependence does, but comparing within pairs of situations when m is held constant but frequency dependence is changed, we do see a clear reduction in variability when there is  greater negative frequency dependence.
 
-df_long <- tidyr::pivot_longer(df, cols = 1:4, names_to = "freq_dependence", values_to = "value")
-
-library(ggplot2)
-library(dplyr)
-df_long %>%
-  mutate(across(everything(), as.numeric)) %>%
-  ggplot(aes(x = freq_dependence, y = value, group = m_value))+
-  geom_point()+
-  geom_line()+
-  facet_wrap(~paste0("m = ", m_value))+
-  ylab("Freq of sp 1")
-
-#####
-
-pdf("Sims_basic processes.pdf", width=8, height=9)
-layout(matrix(1:6, nrow=3, byrow=T))
-
-### local processes: drift with no migration:
-output<-simulate_metacommunity(years=50, patches=10, J=100, m=0, fitness_ratio_ave=rep(1,10), frequency_dependence=rep(0,10))
-trace_metacommunity(output, "neutral, J=100, m=0",colorPatches = F)
-
-## effect of J on drift, still no migration:
-output<-simulate_metacommunity(years=50, patches=10, J=1000, m=0, fitness_ratio_ave=rep(1,10), frequency_dependence=rep(0,10))
-trace_metacommunity(output, "neutral, J=1000, m=0",colorPatches = F)
-
-## constant selection- e.g. habitat filtering:
-
-## one patch type, no migration:
-output<-simulate_metacommunity(years=50, patches=10, J=100, m=0, fitness_ratio_ave=rep(1.2,10), frequency_dependence=rep(0,10))
-trace_metacommunity(output, "constant selection, fitRatio = 1.2, J=100, m=0")
-
-## two symmetric patch types, no migration:
-output<-simulate_metacommunity(years=50, patches=10, J=100, m=0, fitness_ratio_ave=c(rep(1.2,5), rep(1/1.2, 5)), frequency_dependence=rep(0,10))
-trace_metacommunity(output, "constant selection, 2 habitats, fitRatios = 1.2 & 1/1.2")
-
-## weak negative frequency dependence with a fitness difference, no migration:
-
-output<-simulate_metacommunity(years=50, patches=10, J=100, m=0, fitness_ratio_ave=rep(1.1,10), frequency_dependence=rep(-.3,10))
-trace_metacommunity(output, "freq dependence -.3, fitRatio = 1.1, J=100, m=0")
-
-## strong negative frequency dependence with a fitness difference, no migration:
-
-output<-simulate_metacommunity(years=50, patches=10, J=100, m=0, fitness_ratio_ave=rep(1.1,10), frequency_dependence=rep(-.8,10))
-trace_metacommunity(output, "freq dependence -.8, fitRatio = 1.1, J=100, m=0")
-
-dev.off()
-
-
-### Questions:
-
-
-
+# This reminds us of Lotka-Volterra dynamics, where coexistence is promoted by each species having density-dependence, i.e. being more limited by itself than by the other species.
