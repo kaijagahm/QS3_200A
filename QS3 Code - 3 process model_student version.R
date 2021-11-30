@@ -196,7 +196,7 @@ m_values <- round(seq(from = 0, to = 1, length.out = 10), 2)
 
 variances <- rep(NA, length(m_values))
 
-pdf("values_of_m.pdf", width=8, height=9)
+pdf("question2.pdf", width=8, height=9)
 layout(matrix(1:10, nrow=5, byrow=T))
 for(i in 1:length(m_values)){
   title <- paste0("neutral, J = 100, m=", m_values[i])
@@ -225,7 +225,7 @@ plot(x = m_values, y = variances, type = "l", xlab = "migration rate", ylab = "V
 
 variances <- rep(NA, length(m_values))
 
-pdf("spatially_variable.pdf", width=8, height=9)
+pdf("question3.pdf", width=8, height=9)
 layout(matrix(1:10, nrow=5, byrow=T))
 for(i in 1:length(m_values)){
   title <- paste0("const. sel., 2 habs, fitRatios = 1.2 & 1/1.2, m=", m_values[i])
@@ -257,7 +257,7 @@ plot(x = m_values, y = variances, type = "l", xlab = "migration rate", ylab = "V
 m_values <- round(seq(from = 0, to = 1, length.out = 4), 2)
 freq_dependence_values <- c(0, -0.5)
 
-pdf("m_and_freq.pdf", width=8, height=9)
+pdf("question4.pdf", width=8, height=9)
 layout(matrix(1:8, nrow=4, byrow=F))
 
 for(i in 1:length(m_values)){
